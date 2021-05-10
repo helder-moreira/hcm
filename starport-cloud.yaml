@@ -1,0 +1,36 @@
+apiVersion: apps.starport.cloud/v1
+kind: NodeSet
+metadata:
+  name: hcm
+  namespace: default
+spec:
+  replicas: 1
+
+  app:
+    name: hcm
+
+  moniker: starport-alpha
+
+  init:
+    chainID: hcm-test
+    assets:
+      - 100000000000000000stake
+      - 100000000000000000uhcm
+
+  image:
+    name: gcr.io/tendermint-dev/hcm
+    version: main
+    imagePullPolicy: Always
+    build:
+      repository: https://github.com/helder-moreira/hcm
+
+  expose:
+    domain: hcm.app.alpha.starport.cloud
+    grpc: true
+    rpc: true
+    api: true
+    p2p: true
+
+  config:
+    reconcilePeriod: 2m
+    resetDataOnImageUpgrade: true
